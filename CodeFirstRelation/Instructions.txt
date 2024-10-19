@@ -1,0 +1,20 @@
+﻿
+Entitiy oluştur her tablo için 
+EntityFramework kütüphanelerini ekle
+Context oluştur
+DbContext'ten oluşturulan Context'e miras alması gerek
+3 büyükler yapılır.
+1. büyük => context class'a (DbContextOptions<Context> options) : base(options){} 
+2. büyük => appsettings => appsettingsDevelopment => "ConnectionStrings" : { ..... } oluşturulur.
+burada isimlendirme yapılarak bağlantıya isim verilir "default" : "...." 
+" server=ssmsbilgileri ; database=veritabanı_adı ; TrustServerCertificate=true ; trusted_connection=true ;" işlemleri yapılır .
+"ConnectionStrings": {
+    "default": "server=ssmsbilgileri;database=veritabanı_adı;TrustServerCertificate=true;trusted_connection=true;"
+  }
+3. büyük program.cs te bu verileri tanımlayıp kullanmamız gerek
+öncelikle builder.Configuration.GetConnectionString e 2. büyükte oluşturulan bağlantı adını yazmamız gerek
+var cs = builder.Configuration.GetConnectionString("default");
+Contexti SqlServerda kullanacağımızı belirtiyoruz.
+builder.Services.AddDbContext<ContextAdı>(options => options.UseSqlServer(cs));
+
+
